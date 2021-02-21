@@ -1,5 +1,19 @@
 # HealthcareDataLakeAPI
 
+This is a pluggable component for data ingestion into the [HealthcareDataLake](https://github.com/spe-uob/HealthcareDataLake). It accepts new FHIR records as a `POST` request.
+
+## Usage
+
+```sh
+terraform apply
+```
+or as a module import:
+```tf
+module "api" {
+  source = "git@github.com:spe-uob/HealthcareDataLakeAPI.git"
+}
+```
+
 ## About
 
 Based a bit on FHIR Works on AWS, this is a rewrite to:
@@ -14,20 +28,9 @@ This won't implement all the FHIR spec and is just being used as a module for a 
 
 Currently we don't need unstructured data through the `/Binary` resource and so that can be added later with an S3 module.
 
-## Usage
-
-```sh
-terraform apply
-```
-or as a module import:
-```tf
-module "api" {
-  source = "git@github.com:spe-uob/HealthcareDataLakeAPI.git"
-}
-```
-
 **TODO:**
 
+- [ ] Authentication
 - [ ] Capability statement
 - [ ] Refactor for extensibility
 

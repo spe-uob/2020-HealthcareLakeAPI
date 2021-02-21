@@ -12,7 +12,13 @@ This won't implement all the FHIR spec and is just being used as a module for a 
 
 Currently we don't need unstructured data through the `/Binary` resource and so that can be added later with an S3 module.
 
-### TODO:
+## Usage
+```
+$ terraform apply
+```
+
+
+**TODO:**
 
 - [ ] Capability statement
 - [ ] Refactor for extensibility

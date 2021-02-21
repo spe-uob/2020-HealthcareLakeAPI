@@ -1,0 +1,10 @@
+*.zip
+main
+
+*.tfstate
+*.lock
+*.backup
+*.info
+.terraform
+
+*.txt

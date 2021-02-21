@@ -2,7 +2,7 @@
 
 ## About
 
-Based a bit on FHIR Works on AWS, FHIR Definitely Works on AWS seeks to:
+Based a bit on FHIR Works on AWS, this is a rewrite to:
 
 1. Reduce the lambda execution costs significantly by using Golang instead of Node.js
 

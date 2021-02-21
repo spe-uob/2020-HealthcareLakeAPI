@@ -9,8 +9,11 @@ terraform apply
 ```
 or as a module import:
 ```tf
-module "api" {
+module "fhir_api" {
   source = "git@github.com:spe-uob/HealthcareDataLakeAPI.git"
+  
+  region = var.region
+  stage  = var.stage
 }
 ```
 

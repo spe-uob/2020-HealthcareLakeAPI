@@ -1,3 +1,3 @@
-output "function_name" {
-  value = aws_lambda_function.lambda.function_name
+output "api_url" {
+  value = module.api_gateway.base_url
 }

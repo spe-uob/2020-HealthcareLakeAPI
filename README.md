@@ -1,4 +1,6 @@
-# fhir-definitely-works-on-aws
+# HealthcareDataLakeAPI
+
+## About
 
 Based a bit on FHIR Works on AWS, FHIR Definitely Works on AWS seeks to:
 

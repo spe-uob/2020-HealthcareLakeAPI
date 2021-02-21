@@ -64,23 +64,46 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	// log body
 	log.Println("Received body: ", request.Body)
 
-	// write to dynamodb
-	item, err := post(request.Body)
-	if err != nil {
-		log.Println("Error calling post() %e", err.Error())
+	resource := request.Path[1:]
 
+	// handle empty resource path
+	if resource == "" {
+		log.Println("No resource specified")
 		return events.APIGatewayProxyResponse{
-			Body:       "Error",
-			StatusCode: 500,
+			Body:       "Error: no FHIR resource specified in path (e.g. /Patient)\n",
+			StatusCode: 400,
 		}, nil
 	}
 
-	// log and return result
-	log.Println("Wrote item: ", item)
+	log.Println("Resource: ", resource)
+	// check if server accepts resource type
+	accepted := acceptedResource(resource)
+	if accepted {
+		// write to dynamodb
+		item, err := post(request.Body)
+		if err != nil {
+			log.Println("Error calling post() %e", err.Error())
+
+			return events.APIGatewayProxyResponse{
+				Body:       "Error",
+				StatusCode: 500,
+			}, nil
+		}
+
+		// log and return result
+		log.Println("Wrote item: ", item)
+		return events.APIGatewayProxyResponse{
+			Body:       "Success \n",
+			StatusCode: 200,
+		}, nil
+	}
+	// not accepted resource type
+	log.Println("Invalid resource type")
 	return events.APIGatewayProxyResponse{
-		Body:       "Success \n",
-		StatusCode: 200,
+		Body:       "Error: invalid or unsupported FHIR resource\n",
+		StatusCode: 405,
 	}, nil
+
 }
 
 func main() {

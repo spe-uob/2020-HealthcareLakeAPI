@@ -3,6 +3,7 @@ resource "null_resource" "build" {
   // re-builds if file hash changes
   triggers = {
     main    = base64sha256(file("${path.module}/src/main.go"))
+    config  = base64sha256(file("${path.module}/src/config.go"))
     execute = base64sha256(file("${path.module}/build.sh"))
   }
   // build script to run

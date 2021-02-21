@@ -15,10 +15,16 @@ This won't implement all the FHIR spec and is just being used as a module for a 
 Currently we don't need unstructured data through the `/Binary` resource and so that can be added later with an S3 module.
 
 ## Usage
-```
-$ terraform apply
-```
 
+```sh
+terraform apply
+```
+or as a module import:
+```tf
+module "api" {
+  source = "git@github.com:spe-uob/HealthcareDataLakeAPI.git"
+}
+```
 
 **TODO:**
 

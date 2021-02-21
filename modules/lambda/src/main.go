@@ -5,6 +5,8 @@ import (
 	"log"
 	"os"
 
+	"github.com/google/uuid"
+
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
@@ -19,8 +21,9 @@ type db struct {
 
 func client() *db {
 	// create dynamodb client
+	sess := session.Must(session.NewSession())
 	return &db{
-		svc: dynamodb.New(session.Must(session.NewSession())),
+		svc: dynamodb.New(sess),
 	}
 }
 
@@ -45,6 +48,9 @@ func (s *db) put(data map[string]interface{}) error {
 		xx := &(x)
 		vv[k] = &dynamodb.AttributeValue{S: xx}
 	}
+	// generate unique id
+	id := uuid.NewString()
+	vv["id"] = &dynamodb.AttributeValue{S: &(id)}
 	// write to dynamodb
 	params := &dynamodb.PutItemInput{
 		Item:      vv,

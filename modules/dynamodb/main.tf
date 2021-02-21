@@ -6,19 +6,19 @@ resource "aws_dynamodb_table" "fhir" {
   billing_mode = "PAY_PER_REQUEST"
   
   hash_key = "id"
-  range_key = "vid"
   
   attribute {
     name  = "id"
     type = "S"
   }
-  attribute {
-    name  = "vid"
-    type  = "N"
-  }
 
-  # server_side_encryption {
-  #   enabled  = true
-  #   kms_key_arn = var.kms
-  # }
+  server_side_encryption {
+    enabled  = true
+    kms_key_arn = aws_kms_key.fhir.arn
+  }
+}
+
+// KMS key
+resource "aws_kms_key" "fhir" {
+  description = "FHIR dynamodb KMS key"
 }

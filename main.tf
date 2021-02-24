@@ -1,11 +1,4 @@
 terraform {
-  backend "remote" {
-    organization = "healthcare-lake"
-
-    workspaces {
-      name = "HealthcareDataLakeAPI"
-    }
-  }
   required_providers {
     aws = {
       source = "hashicorp/aws"

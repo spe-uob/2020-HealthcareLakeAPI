@@ -12,6 +12,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
+	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 )
 
 // dynamodb session
@@ -41,12 +42,10 @@ func post(body string) (map[string]interface{}, error) {
 }
 
 func (s *db) put(data map[string]interface{}) error {
-	// convert each attribute to dynamodb.AttributeValue
-	var vv = make(map[string]*dynamodb.AttributeValue)
-	for k, v := range data {
-		x := (v.(string))
-		xx := &(x)
-		vv[k] = &dynamodb.AttributeValue{S: xx}
+	vv, err := dynamodbattribute.ConvertToMap(data)
+	if err != nil {
+		log.Println("Failed to convert to dynamodb attributes")
+		return err
 	}
 	// generate unique id
 	id := uuid.NewString()
@@ -56,7 +55,7 @@ func (s *db) put(data map[string]interface{}) error {
 		Item:      vv,
 		TableName: aws.String(os.Getenv("TABLE_NAME")), // Required
 	}
-	_, err := s.svc.PutItem(params)
+	_, err = s.svc.PutItem(params)
 	return err
 }
 

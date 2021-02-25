@@ -44,6 +44,12 @@ resource "aws_api_gateway_integration" "lambda_root" {
    uri                     = var.lambda_invoke_arn
 }
 
+resource "aws_api_gateway_stage" "fhir_stage" {
+  deployment_id = aws_api_gateway_deployment.fhir.id
+  rest_api_id   = aws_api_gateway_rest_api.fhir.id
+  stage_name    = var.stage
+}
+
 resource "aws_api_gateway_deployment" "fhir" {
    depends_on = [
      aws_api_gateway_integration.lambda,
@@ -51,10 +57,12 @@ resource "aws_api_gateway_deployment" "fhir" {
    ]
 
    rest_api_id = aws_api_gateway_rest_api.fhir.id
-   stage_name  = var.stage
 }
 
 resource "aws_api_gateway_method_settings" "all" {
+  depends_on = [
+    aws_api_gateway_stage.fhir_stage
+  ]
   rest_api_id = aws_api_gateway_rest_api.fhir.id
   stage_name = var.stage
   method_path = "*/*"

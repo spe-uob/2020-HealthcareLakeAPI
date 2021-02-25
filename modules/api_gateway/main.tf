@@ -51,4 +51,5 @@ resource "aws_api_gateway_deployment" "fhir" {
    ]
 
    rest_api_id = aws_api_gateway_rest_api.fhir.id
+   stage_name = var.stage
 }

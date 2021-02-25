@@ -1,6 +1,6 @@
-# HealthcareDataLakeAPI
+# HealthcareLakeAPI
 
-This is a pluggable component for data ingestion into the [HealthcareDataLake](https://github.com/spe-uob/HealthcareDataLake). It accepts new FHIR records as a `POST` request.
+This is a pluggable component for data ingestion into the [HealthcareLake](https://github.com/spe-uob/HealthcareLake). It accepts new FHIR records as a `POST` request. Full usage instructions are maintained [here](https://joekendal.gitbook.io/healthcare-data-lake/api/usage).
 
 ## Usage
 

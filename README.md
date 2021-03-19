@@ -1,3 +1,5 @@
+[![Terraform](https://github.com/spe-uob/HealthcareLakeAPI/actions/workflows/terraform.yml/badge.svg?branch=main)](https://github.com/spe-uob/HealthcareLakeAPI/actions/workflows/terraform.yml)
+
 # HealthcareLakeAPI
 
 This is a pluggable component for data ingestion into the [HealthcareLake](https://github.com/spe-uob/HealthcareLake). It accepts new FHIR records as a `POST` request. Full usage instructions are maintained [here](https://joekendal.gitbook.io/healthcare-data-lake/api/usage).

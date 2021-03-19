@@ -8,3 +8,5 @@ main
 .terraform
 *.tfvars
 *.txt
+
+.DS_Store

@@ -25,6 +25,28 @@ resource "aws_cognito_user_pool_client" "client" {
   name            = "SimulationApp"
   user_pool_id    = aws_cognito_user_pool.pool.id
   generate_secret = false
+
+  allowed_oauth_flows                   = ["code", "implicit"]
+  allowed_oauth_flows_user_pool_client  = true
+  allowed_oauth_scopes                  = ["email", "openid", "profile"]
+
+  callback_urls        = ["http://localhost"]
+  default_redirect_uri = "http://localhost"
+
+  explicit_auth_flows = [
+    "ALLOW_USER_PASSWORD_AUTH",
+    "ALLOW_REFRESH_TOKEN_AUTH",
+    "ALLOW_ADMIN_USER_PASSWORD_AUTH"
+  ]
+
+  supported_identity_providers = ["COGNITO"]
+
+  prevent_user_existence_errors = "ENABLED"
+}
+
+resource "aws_cognito_user_pool_domain" "api_pool_domain" {
+  domain = aws_cognito_user_pool_client.client.id
+  user_pool_id = aws_cognito_user_pool.pool.id
 }
 
 resource "null_resource" "cognito_user" {

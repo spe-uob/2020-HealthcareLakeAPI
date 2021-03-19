@@ -34,7 +34,7 @@ module "api_gateway" {
 }
 
 module "cognito_userpool" {
-  source = "./modules/cognito_userpool"
+  source                 = "./modules/cognito_userpool"
   cognito_user_pool_name = module.cognito_userpool.user_pool_name
   region                 = var.region
   password               = var.password

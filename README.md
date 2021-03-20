@@ -32,14 +32,3 @@ Based a bit on FHIR Works on AWS, this is a rewrite to:
 This won't implement all the FHIR spec and is just being used as a module for a data lake ingestion component. Therefore it currently only supports `create` method using `POST`, as that's all we need.
 
 Currently we don't need unstructured data through the `/Binary` resource and so that can be added later with an S3 module.
-
-**TODO:**
-
-- [ ] Authentication
-- [ ] Capability statement
-- [ ] Refactor for extensibility
-
-- [ ] Unit tests
-- [ ] Integration tests
-- [ ] Contract tests
-- [ ] End-to-end tests

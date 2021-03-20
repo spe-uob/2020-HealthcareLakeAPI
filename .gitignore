@@ -6,5 +6,7 @@ main
 *.backup
 *.info
 .terraform
-
+*.tfvars
 *.txt
+
+.DS_Store

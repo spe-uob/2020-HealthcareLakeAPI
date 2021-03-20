@@ -5,3 +5,8 @@ variable "region" {
 variable "stage" {
   default = "dev"
 }
+
+// These are set in .tfvars
+variable "password" {}
+
+variable "username" {}

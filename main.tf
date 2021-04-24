@@ -9,16 +9,20 @@ provider "aws" {
   region = var.region
 }
 
+module "dynamodb" {
+  source = "./modules/dynamodb"
+  stage  = var.stage
+}
+
 module "lambda" {
   source              = "./modules/lambda"
   dynamodb_table_name = module.dynamodb.table_name
   dynamodb_arn        = module.dynamodb.arn
   kms_arn             = module.dynamodb.kms_arn
-}
 
-module "dynamodb" {
-  source = "./modules/dynamodb"
-  stage  = var.stage
+  depends_on = [
+    module.dynamodb
+  ]
 }
 
 module "api_gateway" {

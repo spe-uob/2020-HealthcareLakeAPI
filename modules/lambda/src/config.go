@@ -10,7 +10,7 @@
 package main
 
 // check if enabled resource
-func acceptedResource(lookup string) bool {
+func AcceptedResource(lookup string) bool {
 	switch lookup {
 	case
 		// Level 3 (Admin)

@@ -76,7 +76,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	log.Println("Resource: ", resource)
 	// check if server accepts resource type
-	accepted := acceptedResource(resource)
+	accepted := AcceptedResource(resource)
 	if accepted {
 		// write to dynamodb
 		item, err := post(request.Body)

@@ -57,6 +57,6 @@ resource "null_resource" "cognito_user" {
   // Terraform doesn't support the creation of accounts so this has to be run
   // Also, admin created accounts require password change at first use thus this manual fix
   provisioner "local-exec" {
-    command = "aws cognito-idp admin-create-user --user-pool-id ${aws_cognito_user_pool.pool.id} --username ${var.username} && aws cognito-idp admin-set-user-password --user-pool-id ${aws_cognito_user_pool.pool.id} --username ${var.username} --password ${var.password} --permanent"
+    command = "aws cognito-idp admin-create-user --region ${var.region} --user-pool-id ${aws_cognito_user_pool.pool.id} --username ${var.username} && aws cognito-idp admin-set-user-password --region ${var.region} --user-pool-id ${aws_cognito_user_pool.pool.id} --username ${var.username} --password ${var.password} --permanent"
   }
 }

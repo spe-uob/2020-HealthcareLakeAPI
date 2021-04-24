@@ -13,3 +13,15 @@ output "api_key" {
 output "client_id" {
   value = module.cognito_userpool.client_id
 }
+
+output "dynamodb_name" {
+  value = module.dynamodb.table_name
+}
+
+output "dynamodb_arn" {
+  value = module.dynamodb.arn
+}
+
+output "dynamodb_cmk_arn" {
+  value = module.dynamodb.kms_arn
+}

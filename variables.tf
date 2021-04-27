@@ -10,6 +10,10 @@ variable "prefix" {
   default = "HealthcareLake"
 }
 
-variable "username" {}
+variable "username" {
+  default = false
+}
 
-variable "password" {}
+variable "password" {
+  default = false
+}

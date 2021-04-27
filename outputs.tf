@@ -6,6 +6,10 @@ output "userpool_id" {
   value = module.cognito_userpool.user_pool_id
 }
 
+output "cognito_domain" {
+  value = module.cognito_userpool.cognito_domain
+}
+
 output "api_key" {
   value     = module.api_gateway.api_key
   sensitive = true

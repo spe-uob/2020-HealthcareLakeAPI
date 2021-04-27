@@ -1,6 +1,8 @@
 package test
 
 import (
+	"bytes"
+	"encoding/json"
 	"log"
 	"net/http"
 	"testing"
@@ -44,10 +46,15 @@ func TestEndToEnd(t *testing.T) {
 }
 
 func testUnauthenticated(t *testing.T, apiUrl string) {
-	resp, err := http.Get(apiUrl)
+	body, _ := json.Marshal(map[string]string{"resourceType": "Patient"})
+	resp, err := http.Post(apiUrl+"/Patient", "application/json", bytes.NewBuffer(body))
 	if err != nil {
 		log.Fatalln(err)
 	}
 	defer resp.Body.Close()
 	assert.Equal(t, resp.StatusCode, 401, "Expected StatusCode = 401 (Unauthorized)")
+}
+
+func testAuthenticated(t *testing.T, apiUrl string, username string, password string) {
+
 }

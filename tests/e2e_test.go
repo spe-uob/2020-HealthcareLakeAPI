@@ -10,6 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/cognitoidentityprovider"
+	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/sethvargo/go-password/password"
 	"github.com/stretchr/testify/assert"
@@ -18,7 +19,7 @@ import (
 func TestEndToEnd(t *testing.T) {
 	t.Parallel()
 
-	username := "testing"
+	username := "e2e-test"
 	password, err := password.Generate(16, 6, 0, false, false)
 	if err != nil {
 		log.Fatal(err)
@@ -44,13 +45,16 @@ func TestEndToEnd(t *testing.T) {
 
 	apiUrl := terraform.Output(t, terraformOptions, "api_url")
 	clientId := terraform.Output(t, terraformOptions, "client_id")
-	poolId := terraform.Output(t, terraformOptions, "userpool_id")
+
+	tableName := terraform.Output(t, terraformOptions, "dynamodb_name")
 
 	// apiKey := terraform.Output(t, terraformOptions, "api_key")
 
 	testUnauthenticated(t, apiUrl)
 
-	testAuthenticated(t, apiUrl, clientId, poolId, username, password)
+	testAuthenticated(t, apiUrl, clientId, username, password)
+
+	testDatabase(t, tableName)
 }
 
 func testUnauthenticated(t *testing.T, apiUrl string) {
@@ -63,12 +67,12 @@ func testUnauthenticated(t *testing.T, apiUrl string) {
 	assert.Equal(t, 401, resp.StatusCode, "Expected StatusCode = 401 (Unauthorized)")
 }
 
-func testAuthenticated(t *testing.T, apiUrl string, clientId string, poolId string, username string, password string) {
+func testAuthenticated(t *testing.T, apiUrl string, clientId string, username string, password string) {
 	ses, _ := session.NewSession(&aws.Config{Region: aws.String("eu-west-2")})
 
 	// Get token
-	cip := cognitoidentityprovider.New(ses)
-	authRes, err := cip.InitiateAuth(&cognitoidentityprovider.InitiateAuthInput{
+	svc := cognitoidentityprovider.New(ses)
+	authRes, err := svc.InitiateAuth(&cognitoidentityprovider.InitiateAuthInput{
 		AuthFlow: aws.String("USER_PASSWORD_AUTH"),
 		AuthParameters: map[string]*string{
 			"USERNAME": aws.String(username),
@@ -92,4 +96,26 @@ func testAuthenticated(t *testing.T, apiUrl string, clientId string, poolId stri
 	}
 	defer resp.Body.Close()
 	assert.Equal(t, 200, resp.StatusCode, "Expected StatusCode = 200 (Authorized)")
+}
+
+func testDatabase(t *testing.T, tableName string) {
+	ses, _ := session.NewSession(&aws.Config{Region: aws.String("eu-west-2")})
+	svc := dynamodb.New(ses)
+
+	input := &dynamodb.ScanInput{
+		ExpressionAttributeValues: map[string]*dynamodb.AttributeValue{
+			":t": {
+				S: aws.String("Patient"),
+			},
+		},
+		FilterExpression: aws.String("resourceType = :t"),
+		TableName:        aws.String(tableName),
+	}
+
+	result, err := svc.Scan(input)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	assert.Equal(t, int64(1), aws.Int64Value(result.Count))
 }

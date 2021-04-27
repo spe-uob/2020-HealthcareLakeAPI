@@ -66,6 +66,7 @@ func testUnauthenticated(t *testing.T, apiUrl string) {
 func testAuthenticated(t *testing.T, apiUrl string, clientId string, poolId string, username string, password string) {
 	ses, _ := session.NewSession(&aws.Config{Region: aws.String("eu-west-2")})
 
+	// Get token
 	cip := cognitoidentityprovider.New(ses)
 	authRes, err := cip.InitiateAuth(&cognitoidentityprovider.InitiateAuthInput{
 		AuthFlow: aws.String("USER_PASSWORD_AUTH"),
@@ -80,6 +81,7 @@ func testAuthenticated(t *testing.T, apiUrl string, clientId string, poolId stri
 	}
 	token := authRes.AuthenticationResult.IdToken
 
+	// Make request
 	client := new(http.Client)
 	body, _ := json.Marshal(map[string]string{"resourceType": "Patient"})
 	req, _ := http.NewRequest("POST", apiUrl+"/Patient", bytes.NewBuffer(body))

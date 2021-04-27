@@ -17,3 +17,11 @@ output "client_id" {
 output "cognito_pool_arn" {
 	value = aws_cognito_user_pool.pool.arn
 }
+
+output "username" {
+  value = var.username
+}
+
+output "password" {
+  value = var.password
+}

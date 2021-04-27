@@ -35,8 +35,8 @@ module "cognito_userpool" {
   region                 = var.region
   prefix                 = var.prefix
 
-  username = var.username ? var.username : "testuser" 
-  password = var.password ? var.password : random_string.password.result
+  username = var.username == null ? "testuser" : var.username
+  password = var.password == null ? random_string.password.result : var.password
 }
 
 module "api_gateway" {

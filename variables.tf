@@ -11,9 +11,9 @@ variable "prefix" {
 }
 
 variable "username" {
-  default = false
+  default = null
 }
 
 variable "password" {
-  default = false
+  default = null
 }

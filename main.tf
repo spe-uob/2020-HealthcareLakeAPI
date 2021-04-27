@@ -12,6 +12,7 @@ provider "aws" {
 module "dynamodb" {
   source = "./modules/dynamodb"
   stage  = var.stage
+  prefix = var.prefix
 }
 
 module "lambda" {
@@ -19,10 +20,23 @@ module "lambda" {
   dynamodb_table_name = module.dynamodb.table_name
   dynamodb_arn        = module.dynamodb.arn
   kms_arn             = module.dynamodb.kms_arn
+  prefix              = var.prefix
+}
 
-  depends_on = [
-    module.dynamodb
-  ]
+resource "random_string" "password" {
+  length      = 16
+  min_lower   = 4
+  min_numeric = 2
+  special     = false
+}
+
+module "cognito_userpool" {
+  source = "./modules/cognito_userpool"
+  region = var.region
+  prefix = var.prefix
+
+  username = var.username == null ? "testuser" : var.username
+  password = var.password == null ? random_string.password.result : var.password
 }
 
 module "api_gateway" {
@@ -33,14 +47,6 @@ module "api_gateway" {
   cognito_user_pool_name = module.cognito_userpool.user_pool_name
 
   depends_on = [
-    module.lambda
+    module.cognito_userpool
   ]
-}
-
-module "cognito_userpool" {
-  source                 = "./modules/cognito_userpool"
-  cognito_user_pool_name = module.cognito_userpool.user_pool_name
-  region                 = var.region
-  password               = var.password
-  username               = var.username
 }

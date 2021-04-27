@@ -7,7 +7,8 @@ output "userpool_id" {
 }
 
 output "api_key" {
-  value = module.api_gateway.api_key
+  value     = module.api_gateway.api_key
+  sensitive = true
 }
 
 output "client_id" {
@@ -24,4 +25,12 @@ output "dynamodb_arn" {
 
 output "dynamodb_cmk_arn" {
   value = module.dynamodb.kms_arn
+}
+
+output "username" {
+  value = module.cognito_userpool.username
+}
+
+output "password" {
+  value = module.cognito_userpool.password
 }

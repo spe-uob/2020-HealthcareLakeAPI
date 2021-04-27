@@ -6,7 +6,14 @@ variable "stage" {
   default = "dev"
 }
 
-// These are set in .tfvars
-variable "password" {}
+variable "prefix" {
+  default = "HealthcareLake"
+}
 
-variable "username" {}
+variable "username" {
+  default = null
+}
+
+variable "password" {
+  default = null
+}

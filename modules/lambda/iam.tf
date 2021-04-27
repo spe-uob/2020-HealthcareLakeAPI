@@ -1,6 +1,6 @@
 // lambda function role
 resource "aws_iam_role" "lambda" {
-  name               = "LambdaExecutionRole"
+  name               = "${var.prefix}-LambdaExecutionRole"
   assume_role_policy = data.aws_iam_policy_document.lambda.json
 }
 
@@ -16,7 +16,7 @@ data "aws_iam_policy_document" "lambda" {
 }
 
 resource "aws_iam_role_policy" "fhir_role_policy" {
-  name = "FhirLambdaRolePolicy"
+  name = "${var.prefix}-FhirLambdaRolePolicy"
   role = aws_iam_role.lambda.name
   policy = data.aws_iam_policy_document.fhir_policy.json
 }

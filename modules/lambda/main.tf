@@ -22,7 +22,7 @@ data "archive_file" "source" {
 
 // Lambda function for Golang
 resource "aws_lambda_function" "lambda" {
-  function_name = "lambda"
+  function_name = "${var.prefix}-lambda"
 
   filename         = "${path.module}/lambda.zip"
   source_code_hash = data.archive_file.source.output_base64sha256

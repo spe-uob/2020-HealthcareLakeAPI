@@ -10,7 +10,7 @@ variable "prefix" {
   default = "healthcarelake"
 
   validation {
-    condition     = can(regex("^[a-z]+$", var.prefix))
+    condition     = can(regex("^[-a-z0-9]+$", var.prefix))
     error_message = "The prefix must be all lowercase letters."
   }
 }

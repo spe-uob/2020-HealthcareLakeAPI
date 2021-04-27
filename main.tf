@@ -31,9 +31,9 @@ resource "random_string" "password" {
 }
 
 module "cognito_userpool" {
-  source                 = "./modules/cognito_userpool"
-  region                 = var.region
-  prefix                 = var.prefix
+  source = "./modules/cognito_userpool"
+  region = var.region
+  prefix = var.prefix
 
   username = var.username == null ? "testuser" : var.username
   password = var.password == null ? random_string.password.result : var.password

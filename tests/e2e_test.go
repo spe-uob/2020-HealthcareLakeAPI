@@ -1,12 +1,13 @@
 package test
 
 import (
-	"fmt"
 	"log"
+	"net/http"
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/sethvargo/go-password/password"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestEndToEnd(t *testing.T) {
@@ -17,7 +18,6 @@ func TestEndToEnd(t *testing.T) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Printf(password)
 
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		// The path to where our Terraform code is located
@@ -38,9 +38,16 @@ func TestEndToEnd(t *testing.T) {
 	terraform.InitAndApply(t, terraformOptions)
 
 	apiUrl := terraform.Output(t, terraformOptions, "api_url")
-	apiKey := terraform.Output(t, terraformOptions, "api_key")
+	// apiKey := terraform.Output(t, terraformOptions, "api_key")
 
-	// TODO: send post request
-	fmt.Println("Api Url: ", apiUrl)
-	fmt.Println("Api Key: ", apiKey)
+	testUnauthenticated(t, apiUrl)
+}
+
+func testUnauthenticated(t *testing.T, apiUrl string) {
+	resp, err := http.Get(apiUrl)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer resp.Body.Close()
+	assert.Equal(t, resp.StatusCode, 401, "Expected StatusCode = 401 (Unauthorized)")
 }

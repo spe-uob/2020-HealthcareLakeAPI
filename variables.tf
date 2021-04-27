@@ -7,7 +7,12 @@ variable "stage" {
 }
 
 variable "prefix" {
-  default = "HealthcareLake"
+  default = "healthcarelake"
+  
+  validation {
+    condition     = can(regex("^[a-z]+$", var.project_name))
+    error_message = "The prefix must be all lowercase letters."
+  }
 }
 
 variable "username" {

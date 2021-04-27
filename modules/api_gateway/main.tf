@@ -15,8 +15,8 @@ resource "aws_api_gateway_method" "proxy" {
   resource_id = aws_api_gateway_resource.proxy.id
   http_method = "POST"
   authorization = "COGNITO_USER_POOLS"
-   authorizer_id = aws_api_gateway_authorizer.auth.id
-   api_key_required = false
+  authorizer_id = aws_api_gateway_authorizer.auth.id
+  api_key_required = false
 }
 
 // Data source for userpool arn

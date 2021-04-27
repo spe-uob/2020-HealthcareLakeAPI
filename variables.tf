@@ -9,3 +9,7 @@ variable "stage" {
 variable "prefix" {
   default = "HealthcareLake"
 }
+
+variable "username" {}
+
+variable "password" {}

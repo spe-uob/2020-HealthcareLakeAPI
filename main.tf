@@ -19,10 +19,6 @@ module "lambda" {
   dynamodb_table_name = module.dynamodb.table_name
   dynamodb_arn        = module.dynamodb.arn
   kms_arn             = module.dynamodb.kms_arn
-
-  depends_on = [
-    module.dynamodb
-  ]
 }
 
 module "api_gateway" {
@@ -31,10 +27,6 @@ module "api_gateway" {
   lambda_invoke_arn      = module.lambda.invoke_arn
   lambda_name            = module.lambda.function_name
   cognito_user_pool_name = module.cognito_userpool.user_pool_name
-
-  depends_on = [
-    module.lambda
-  ]
 }
 
 module "cognito_userpool" {

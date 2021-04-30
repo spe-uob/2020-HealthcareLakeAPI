@@ -6,6 +6,7 @@ resource "aws_cognito_user_pool" "pool" {
     require_uppercase = false  
     require_symbols   = false
     require_numbers   = true
+    temporary_password_validity_days = 7
   }
 
   device_configuration {

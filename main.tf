@@ -1,14 +1,3 @@
-terraform {
-  required_providers {
-    aws = {
-      source = "hashicorp/aws"
-    }
-  }
-}
-provider "aws" {
-  region = var.region
-}
-
 module "dynamodb" {
   source = "./modules/dynamodb"
   stage  = var.stage

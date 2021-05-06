@@ -1,4 +1,6 @@
 [![Terraform](https://github.com/spe-uob/HealthcareLakeAPI/actions/workflows/terraform.yml/badge.svg?branch=main)](https://github.com/spe-uob/HealthcareLakeAPI/actions/workflows/terraform.yml)
+[![Scan](https://github.com/spe-uob/HealthcareLakeAPI/workflows/Scan/badge.svg)](https://github.com/accurics/terrascan)
+
 
 # HealthcareLakeAPI
 
